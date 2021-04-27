@@ -16,4 +16,19 @@ app.post("/api/temp", (req, res) => {
   res.send("OK");
 });
 
+app.post("/api/humid", (req, res) => {
+  console.log(req.body);
+  res.send("OK");
+});
+
+app.post("/api/light", (req, res) => {
+  console.log(req.body);
+  res.send("OK");
+});
+
+app.post("/api/rain", (req, res) => {
+  console.log(req.body);
+  res.send("OK");
+});
+
 app.listen(PORT, () => console.log("Server has started !"));
