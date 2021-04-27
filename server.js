@@ -8,13 +8,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log("a");
-  res.send("b");
+  res.send("SERVER IS UP");
 });
 
-app.post("/api/temp", (req, res) => {
-  console.log(req.query.temp);
-  res.send("Temp : " + req.query.temp);
+app.post("/api/tmp", (req, res) => {
+  console.log(req.body);
+  res.send("OK");
 });
 
 app.listen(PORT, () => console.log("Server has started !"));
