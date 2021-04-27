@@ -11,22 +11,7 @@ app.get("/", (req, res) => {
   res.send("SERVER IS UP");
 });
 
-app.post("/api/temp", (req, res) => {
-  console.log(req.body);
-  res.send("OK");
-});
-
-app.post("/api/humid", (req, res) => {
-  console.log(req.body);
-  res.send("OK");
-});
-
-app.post("/api/light", (req, res) => {
-  console.log(req.body);
-  res.send("OK");
-});
-
-app.post("/api/rain", (req, res) => {
+app.post("/api/iotdata", (req, res) => {
   console.log(req.body);
   res.send("OK");
 });
