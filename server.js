@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.send("SERVER IS UP");
 });
 
-app.post("/api/tmp", (req, res) => {
+app.post("/api/temp", (req, res) => {
   console.log(req.body);
   res.send("OK");
 });
