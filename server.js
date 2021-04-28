@@ -16,7 +16,10 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   let reply_token = req.body.events[0].replyToken;
-  reply(reply_token, "Hello Wrold !");
+  let msg = req.body.events[0].message.text;
+  if (msg === "now") {
+    reply(reply_token, "Temp : 23, Humid 23\n It is raining in PSU");
+  } else reply(reply_token, "IDK");
   res.sendStatus(200);
 });
 
