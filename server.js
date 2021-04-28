@@ -12,14 +12,15 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("SERVER IS UP");
+  lineBroadcast("SERVER IS UP");
 });
 
 app.post("/webhook", (req, res) => {
   let reply_token = req.body.events[0].replyToken;
   let msg = req.body.events[0].message.text;
   if (msg === "now") {
-    reply(reply_token, "Temp : 23, Humid 23\n It is raining in PSU");
-  } else reply(reply_token, "IDK");
+    lineReply(reply_token, "Temp : 23, Humid 23\n It is raining in PSU");
+  } else lineReply(reply_token, "IDK");
   res.sendStatus(200);
 });
 
@@ -46,11 +47,11 @@ const lineToken =
   "KE5kFlm/9DFw9N5ZnR93ND5E0KDklFNJ25rtOE//W79Sj3Rf8gKWkXvwTPpG46cYqCrKs6uhCHUA15McOvVsBH7sqTxC1TI7iliuNcW1t9MZKyllbWJU5yZUZg3UYbZX27HmrVU7bh+IvsdgCqADCgdB04t89/1O/w1cDnyilFU=";
 
 const lineAx = axios.create({
-  baseURL: "https://api.line.me/v2/bot/message/reply",
+  baseURL: "https://api.line.me/v2/bot/message",
 });
 
-function reply(reply_token, message) {
-  let body = JSON.stringify({
+function lineReply(reply_token, message) {
+  const body = JSON.stringify({
     replyToken: reply_token,
     messages: [
       {
@@ -59,8 +60,22 @@ function reply(reply_token, message) {
       },
     ],
   });
-
   lineAx.defaults.headers.common["Authorization"] = `Bearer {${lineToken}}`;
   lineAx.defaults.headers.post["Content-Type"] = "application/json";
-  lineAx.post("/", body);
+  lineAx.post("/reply", body);
+}
+
+function lineBroadcast(message) {
+  const body = JSON.stringify({
+    replyToken: reply_token,
+    messages: [
+      {
+        type: "text",
+        text: message,
+      },
+    ],
+  });
+  lineAx.defaults.headers.common["Authorization"] = `Bearer {${lineToken}}`;
+  lineAx.defaults.headers.post["Content-Type"] = "application/json";
+  lineAx.post("/broadcast", body);
 }
