@@ -13,6 +13,8 @@ app.get("/", (req, res) => {
   res.send("SERVER IS UP");
 });
 
+app.post("/webhook", (req, res) => res.sendStatus(200));
+
 app.post("/api/iotdata", (req, res) => {
   console.log(req.body);
   const { temp, humid, light, rain } = req.body;
