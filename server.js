@@ -24,8 +24,8 @@ app.post("/webhook", (req, res) => {
   if (msg === "check") {
     lineReply(
       reply_token,
-      `The tempreture now is ${tempTmp}°c\n with the of Humidity : ${humidTmp}%\n${
-        rainTmp === "0" ? "It is clear in PSU" : "It is raining in PSU"
+      `Temperature ${tempTmp}°c\nHumidity : ${humidTmp}%\n\n${
+        rainTmp === "0" ? "It is clear in PSU." : "It is raining in PSU."
       }`
     );
   } else
