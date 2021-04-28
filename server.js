@@ -14,12 +14,21 @@ app.get("/", (req, res) => {
   res.send("SERVER IS UP");
 });
 
+let tempTmp = "0",
+  humidTmp = "0",
+  rainTmp = "0";
+
 app.post("/webhook", (req, res) => {
   let reply_token = req.body.events[0].replyToken;
   let msg = req.body.events[0].message.text;
-  if (msg === "now") {
-    lineReply(reply_token, "Temp : 23, Humid 23\n It is raining in PSU");
-  } else lineReply(reply_token, "IDK");
+  if (msg === "check") {
+    lineReply(
+      reply_token,
+      `Temp : ${tempTmp}°c, Humid : ${humidTmp}%\n ${
+        rainTmp === "0" ? "It is clear in PSU" : "It is raining in PSU"
+      }`
+    );
+  } else lineReply(reply_token, 'Type "check" to check the weather now !');
   res.sendStatus(200);
 });
 
@@ -30,6 +39,14 @@ app.post("/api/iotdata", (req, res) => {
   io.sockets.emit("humid", humid);
   io.sockets.emit("light", light);
   io.sockets.emit("rain", rain);
+  tempTmp = temp;
+  humidTmp = humid;
+  if (rainTmp !== rain) {
+    rainTmp = rain;
+    if (rain === "1") {
+      lineBroadcast("It is rainning in PSU now !");
+    } else lineBroadcast("Rain in PSU has stopped just now !");
+  }
   res.send("OK");
 });
 
