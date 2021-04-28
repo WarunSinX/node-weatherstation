@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, { cors: { origin: "*" } });
-const request = require("request");
+const axios = require("axios");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -42,11 +42,11 @@ io.on("connection", (socket) => {
 const lineToken =
   "KE5kFlm/9DFw9N5ZnR93ND5E0KDklFNJ25rtOE//W79Sj3Rf8gKWkXvwTPpG46cYqCrKs6uhCHUA15McOvVsBH7sqTxC1TI7iliuNcW1t9MZKyllbWJU5yZUZg3UYbZX27HmrVU7bh+IvsdgCqADCgdB04t89/1O/w1cDnyilFU=";
 
+const lineAx = axios.create({
+  baseURL: "https://api.line.me/v2/bot/message/reply",
+});
+
 function reply(reply_token) {
-  let headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer {${lineToken}}`,
-  };
   let body = JSON.stringify({
     replyToken: reply_token,
     messages: [
@@ -60,14 +60,8 @@ function reply(reply_token) {
       },
     ],
   });
-  request.post(
-    {
-      url: "https://api.line.me/v2/bot/message/reply",
-      headers: headers,
-      body: body,
-    },
-    (err, res, body) => {
-      console.log("status = " + res.statusCode);
-    }
-  );
+
+  lineAx.defaults.headers.common["Authorization"] = `Bearer {${lineToken}}`;
+  lineAx.defaults.headers.post["Content-Type"] = "application/json";
+  lineAx.post("/", body);
 }
