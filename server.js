@@ -24,11 +24,12 @@ app.post("/webhook", (req, res) => {
   if (msg === "check") {
     lineReply(
       reply_token,
-      `Temp : ${tempTmp}°c, Humid : ${humidTmp}%\n ${
+      `The tempreture now is ${tempTmp}°c\n with the of Humidity : ${humidTmp}%\n${
         rainTmp === "0" ? "It is clear in PSU" : "It is raining in PSU"
       }`
     );
-  } else lineReply(reply_token, 'Type "check" to check the weather now !');
+  } else
+    lineReply(reply_token, 'Type "check" to check the weather in PSU now !');
   res.sendStatus(200);
 });
 
