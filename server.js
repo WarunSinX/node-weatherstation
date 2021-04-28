@@ -67,7 +67,6 @@ function lineReply(reply_token, message) {
 
 function lineBroadcast(message) {
   const body = JSON.stringify({
-    replyToken: reply_token,
     messages: [
       {
         type: "text",
