@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   let reply_token = req.body.events[0].replyToken;
-  reply(reply_token);
+  reply(reply_token, "Hello Wrold !");
   res.sendStatus(200);
 });
 
@@ -46,17 +46,13 @@ const lineAx = axios.create({
   baseURL: "https://api.line.me/v2/bot/message/reply",
 });
 
-function reply(reply_token) {
+function reply(reply_token, message) {
   let body = JSON.stringify({
     replyToken: reply_token,
     messages: [
       {
         type: "text",
-        text: "Hello",
-      },
-      {
-        type: "text",
-        text: "How are you ?",
+        text: message,
       },
     ],
   });
