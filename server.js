@@ -12,7 +12,6 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("SERVER IS UP");
-  lineBroadcast("SERVER IS UP");
 });
 
 app.post("/webhook", (req, res) => {
@@ -34,7 +33,10 @@ app.post("/api/iotdata", (req, res) => {
   res.send("OK");
 });
 
-server.listen(PORT, () => console.log("Server has started !"));
+server.listen(PORT, () => {
+  lineBroadcast("Server has started !");
+  console.log("Server has started !");
+});
 
 io.on("connection", (socket) => {
   socket.emit("temp", 0);
