@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, { cors: { origin: "*" } });
+const request = require("request");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -55,7 +56,7 @@ function reply(reply_token) {
       },
       {
         type: "text",
-        text: "How are you?",
+        text: "How are you ?",
       },
     ],
   });
