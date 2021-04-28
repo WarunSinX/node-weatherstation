@@ -13,7 +13,11 @@ app.get("/", (req, res) => {
   res.send("SERVER IS UP");
 });
 
-app.post("/webhook", (req, res) => res.sendStatus(200));
+app.post("/webhook", (req, res) => {
+  let reply_token = req.body.events[0].replyToken;
+  reply(reply_token);
+  res.sendStatus(200);
+});
 
 app.post("/api/iotdata", (req, res) => {
   console.log(req.body);
@@ -33,3 +37,36 @@ io.on("connection", (socket) => {
   socket.emit("light", 0);
   socket.emit("rain", 0);
 });
+
+const lineToken =
+  "KE5kFlm/9DFw9N5ZnR93ND5E0KDklFNJ25rtOE//W79Sj3Rf8gKWkXvwTPpG46cYqCrKs6uhCHUA15McOvVsBH7sqTxC1TI7iliuNcW1t9MZKyllbWJU5yZUZg3UYbZX27HmrVU7bh+IvsdgCqADCgdB04t89/1O/w1cDnyilFU=";
+
+function reply(reply_token) {
+  let headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer {${lineToken}}`,
+  };
+  let body = JSON.stringify({
+    replyToken: reply_token,
+    messages: [
+      {
+        type: "text",
+        text: "Hello",
+      },
+      {
+        type: "text",
+        text: "How are you?",
+      },
+    ],
+  });
+  request.post(
+    {
+      url: "https://api.line.me/v2/bot/message/reply",
+      headers: headers,
+      body: body,
+    },
+    (err, res, body) => {
+      console.log("status = " + res.statusCode);
+    }
+  );
+}
