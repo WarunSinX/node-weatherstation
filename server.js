@@ -62,9 +62,8 @@ io.on("connection", (socket) => {
   socket.emit("light", 0);
   socket.emit("rain", 0);
 });
-
-const lineToken =
-  "KE5kFlm/9DFw9N5ZnR93ND5E0KDklFNJ25rtOE//W79Sj3Rf8gKWkXvwTPpG46cYqCrKs6uhCHUA15McOvVsBH7sqTxC1TI7iliuNcW1t9MZKyllbWJU5yZUZg3UYbZX27HmrVU7bh+IvsdgCqADCgdB04t89/1O/w1cDnyilFU=";
+//replace "x" with real generated token from line dev console.
+const lineToken = "x";
 
 const lineAx = axios.create({
   baseURL: "https://api.line.me/v2/bot/message",
